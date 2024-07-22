@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Product</title>
+    <style>
+        /* Основні стилі */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        header {
+            background-color: #5a4b6d; /* Темний фіолетовий */
+            color: white;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+        }
+
+        nav a {
+            color: #d8d8d8; /* Світлий сірий */
+            text-decoration: none;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #ffffff; /* Білий */
+        }
+
+        main {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .add-product-form {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .add-product-form:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .add-product-form label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+
+        .add-product-form input[type="text"],
+        .add-product-form input[type="number"],
+        .add-product-form textarea,
+        .add-product-form input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            background-color: #f8f9fa;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .add-product-form input[type="text"]:focus,
+        .add-product-form input[type="number"]:focus,
+        .add-product-form textarea:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+        }
+
+        .add-product-form textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .add-product-form input[type="radio"] {
+            margin-right: 5px;
+        }
+
+        .add-product-form .category-option {
+            padding: 5px 0;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .add-product-form .category-option.selected {
+            background-color: #007bff;
+            color: #ffffff;
+            border-radius: 4px;
+        }
+
+        .add-product-form button {
+            background-color: #007bff; /* Синій */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+        }
+
+        .add-product-form button:hover {
+            background-color: #0056b3;
+        }
+
+        .add-product-form button:active {
+            background-color: #003d7a;
+            transform: scale(0.98);
+        }
+
+        /* Стилі для темної теми */
+        .dark-mode body {
+            background-color: #333;
+            color: #f4f4f9;
+        }
+
+        .dark-mode header {
+            background-color: #1a1a1a;
+        }
+
+        .dark-mode .add-product-form {
+            background-color: #444;
+            color: #f4f4f9;
+        }
+
+        .dark-mode .add-product-form input[type="text"],
+        .dark-mode .add-product-form input[type="number"],
+        .dark-mode .add-product-form textarea {
+            background-color: #555;
+            color: #f4f4f9;
+            border-color: #666;
+        }
+
+        .dark-mode .add-product-form input[type="text"]:focus,
+        .dark-mode .add-product-form input[type="number"]:focus,
+        .dark-mode .add-product-form textarea:focus {
+            border-color: #66aaff;
+            box-shadow: 0 0 5px rgba(102, 170, 255, 0.3);
+        }
+
+        .dark-mode .add-product-form button {
+            background-color: #0056b3;
+        }
+
+        .dark-mode .add-product-form button:hover {
+            background-color: #004494;
+        }
+
+        /* Адаптивність */
+        @media (max-width: 768px) {
+            .add-product-form {
+                padding: 10px;
+            }
+
+            .add-product-form button {
+                width: 100%;
+            }
+        }
+
+        /* Кнопка для перемикання теми */
+        .toggle-theme-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+
+        .toggle-theme-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Add New Product</h1>
+        <nav>
+            <a href="/myAccount">My Account</a>
+        </nav>
+    </header>
+    <main>
+        <div class="add-product-form">
+            <form th:action="@{/myAccount/addProduct}" th:object="${product}" method="post" enctype="multipart/form-data">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required><br>
+        
+                <label for="price">Price:</label>
+                <input type="number" id="price" name="price" step="0.01" required><br>
+        
+                <label for="description">Description:</label>
+                <textarea id="description" name="description"></textarea><br>
+        
+                <label>Category:</label><br>
+                <div class="category-option">
+                    <input type="radio" id="type1" name="category" value="Ноутбуки Та Комп'ютери">
+                    <label for="type1">Ноутбуки Та Комп'ютери</label>
+                </div>
+                <div class="category-option">
+                    <input type="radio" id="type2" name="category" value="Побутова Техніка">
+                    <label for="type2">Побутова Техніка</label>
+                </div>
+                <div class="category-option">
+                    <input type="radio" id="type3" name="category" value="Книги">
+                    <label for="type3">Книги</label>
+                </div>
+        
+                <label for="photo">Photo:</label>
+                <input type="file" id="photo" name="photo"><br>
+        
+                <button type="submit">Add Product</button>
+            </form>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2024 Your Company. All rights reserved.</p>
+    </footer>
+    <button class="toggle-theme-button">Toggle Dark Mode</button>
+    <script>
+        // Перемикання теми
+        const toggleThemeButton = document.querySelector('.toggle-theme-button');
+        let isDarkMode = false;
+
+        toggleThemeButton.addEventListener('click', function () {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode', isDarkMode);
+        });
+
+        // Підтвердження перед відправкою форми
+        const form = document.querySelector('form');
+        form.addEventListener('submit', function (event) {
+            if (!confirm('Are you sure you want to add this product?')) {
+                event.preventDefault(); // Скасувати відправку форми
+            }
+        });
+
+        // Динамічна зміна кольору категорії
+        const categoryOptions = document.querySelectorAll('.category-option');
+        categoryOptions.forEach(option => {
+            option.addEventListener('click', function () {
+                // Видалити клас selected у всіх категорій
+                categoryOptions.forEach(o => o.classList.remove('selected'));
+                // Додати клас selected до вибраної категорії
+                this.classList.add('selected');
+            });
+        });
+    </script>
+</body>
+</html>

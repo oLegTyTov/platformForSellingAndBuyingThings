@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Продані продукти</title>
+    <style>
+        /* Основні стилі */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9; /* Світло-сірий фон */
+            color: #333;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #5a4b6d; /* Темний фіолетовий */
+        }
+
+        .product-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .product-card {
+            background-color: #f2d6c1; /* Колір шкіри */
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            flex: 1 1 calc(25% - 20px); /* Чотири продукти в рядок */
+            box-sizing: border-box;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: default; /* Зміна курсору на звичайний */
+        }
+
+        .product-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .product-card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .pagination {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .pagination a {
+            margin: 0 5px;
+            padding: 5px 10px;
+            text-decoration: none;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            color: #333;
+            background-color: #f2d6c1; /* Колір шкіри */
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .pagination a:hover {
+            background-color: #0056b3; /* Темніший синій */
+            color: #fff;
+        }
+
+        .pagination a.current {
+            background-color: #007bff; /* Синій */
+            color: #fff;
+            border-color: #007bff;
+        }
+
+        .return-link {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .return-link a {
+            color: #5a4b6d; /* Темний фіолетовий */
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .return-link a:hover {
+            text-decoration: underline;
+        }
+
+        .no-products {
+            text-align: center;
+            color: #888;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Продані продукти</h1>
+
+        <!-- Повідомлення про відсутність проданих продуктів -->
+        <div th:if="${#lists.isEmpty(pageSoldProducts.content)}" class="no-products">
+            У вас немає проданих продуктів.
+        </div>
+
+        <!-- Список проданих продуктів -->
+        <div th:if="${!#lists.isEmpty(pageSoldProducts.content)}" class="product-grid">
+            <div th:each="product : ${pageSoldProducts.content}" class="product-card">
+                <img th:src="'data:image/jpeg;base64,' + ${product.base64Image}" th:alt="${product.name}">
+                <h2 th:text="${product.name}">Назва продукту</h2>
+            </div>
+        </div>
+
+        <!-- Пагінація -->
+        <div class="pagination">
+            <a th:if="${currentPage > 0}" th:href="@{/myAccount/getAllSoldProducts(page=${currentPage - 1}, size=${size})}">Попередня</a>
+            <span th:text="'Сторінка ' + (${currentPage + 1}) + ' з ' + ${totalPages}">Сторінка 1 з 1</span>
+            <a th:if="${currentPage + 1 < totalPages}" th:href="@{/myAccount/getAllSoldProducts(page=${currentPage + 1}, size=${size})}">Наступна</a>
+        </div>
+
+        <!-- Повернення до акаунту -->
+        <div class="return-link">
+            <p><a th:href="@{/myAccount}">Повернутися до акаунту</a></p>
+        </div>
+    </div>
+</body>
+</html>

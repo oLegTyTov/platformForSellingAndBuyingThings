@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Увійти в систему</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9; /* світло-сірий фон */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #333;
+        }
+        .login-container {
+            background-color: #ffffff; /* білий фон */
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+        .login-container h2 {
+            margin-bottom: 20px;
+            color: #5a4b6d; /* темний фіолетовий */
+        }
+        .login-form input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            background-color: #f8f9fa; /* світло-сірий */
+        }
+        .login-form button {
+            width: calc(100% - 20px);
+            padding: 10px;
+            background-color: #78c2ad; /* зелений */
+            border: none;
+            border-radius: 4px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .login-form button:hover {
+            background-color: #66a896; /* темніший зелений */
+        }
+        .error-message {
+            color: red;
+            margin-top: 10px;
+        }
+        .signup-link, .delete-link {
+            display: block;
+            margin: 10px 0;
+            color: #6c5b7b; /* світліший фіолетовий */
+            text-decoration: none;
+        }
+        .signup-link:hover, .delete-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Увійти в систему</h2>
+        <form class="login-form" th:action="@{/login}" method="post">
+            <input type="email" name="username" placeholder="Електронна пошта" required>
+            <input type="password" name="password" placeholder="Пароль" required>
+            <button type="submit">Увійти</button>
+        </form>
+        <a class="signup-link" href="/signup">Немає акаунта? Створіть його!</a>
+        <a class="delete-link" href="/deleteAccount">Хочете видалити акаунт? Клікніть тут!</a>
+        <div th:if="${error==true}" class="error-message">Неправильні дані для входу. Спробуйте ще раз.</div>
+    </div>
+</body>
+</html>

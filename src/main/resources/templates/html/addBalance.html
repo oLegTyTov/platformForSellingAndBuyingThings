@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Поповнити баланс</title>
+    <link rel="stylesheet" href="/styles.css"> <!-- Підключення стилів -->
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9; /* Світло-сірий фон */
+            color: #333;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        header {
+            background-color: #5a4b6d; /* Темний фіолетовий */
+            color: white;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header a {
+            color: #d8d8d8; /* Світлий сірий */
+            text-decoration: none;
+            margin-left: 10px;
+        }
+
+        header a:hover {
+            color: #ffffff; /* Білий */
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .form-container {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #5a4b6d; /* Темний фіолетовий */
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .form-group input[type="submit"] {
+            background-color: #5a4b6d; /* Темний фіолетовий */
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            padding: 15px;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-group input[type="submit"]:hover {
+            background-color: #40324d; /* Темніший фіолетовий */
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .back-link a {
+            color: #5a4b6d; /* Темний фіолетовий */
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Поповнити баланс</h1>
+        <a th:href="@{/myAccount}">Мій обліковий запис</a>
+    </header>
+
+    <div class="container">
+        <div class="form-container">
+            <h1>Поповнити баланс</h1>
+            <form action="#" th:action="@{/myAccount/addBalance}" method="post">
+                <div class="form-group">
+                    <label for="balance">Сума для поповнення:</label>
+                    <input type="number" id="balance" name="balance" step="0.01" min="0" required>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Поповнити">
+                </div>
+            </form>
+        </div>
+
+    </div>
+</body>
+</html>

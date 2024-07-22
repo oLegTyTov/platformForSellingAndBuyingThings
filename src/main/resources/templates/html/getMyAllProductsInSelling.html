@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Мої продукти в продажу</title>
+    <link rel="stylesheet" href="/styles.css"> <!-- Підключення стилів -->
+    <style>
+        /* Основні стилі */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9; /* Світло-сірий фон */
+            color: #333;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        header {
+            background-color: #5a4b6d; /* Темний фіолетовий */
+            color: white;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+        }
+
+        nav a {
+            color: #d8d8d8; /* Світлий сірий */
+            text-decoration: none;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #ffffff; /* Білий */
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .product-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .product-card {
+            background-color: #f2d6c1; /* Колір шкіри */
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            flex: 0 1 calc(25% - 20px); /* Чотири продукти в рядок */
+            box-sizing: border-box;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .product-card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .pagination {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .pagination a {
+            margin: 0 5px;
+            padding: 5px 10px;
+            text-decoration: none;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            color: white; /* Колір тексту білий */
+            background-color: #f2d6c1; /* Колір шкіри */
+            font-weight: bold;
+        }
+
+        .pagination a:hover {
+            background-color: #0056b3; /* Темніший синій */
+        }
+
+        .pagination a.current {
+            background-color: #f2d6c1;
+            color: #fff;
+            border-color: #f2d6c1;
+        }
+
+        .account-link {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .account-link a {
+            color: #f2d6c1;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .account-link a:hover {
+            text-decoration: underline;
+        }
+
+        .no-products {
+            text-align: center;
+            color: #888;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Мої продукти в продажу</h1>
+        <nav>
+            <a href="/myAccount">Мій обліковий запис</a>
+        </nav>
+    </header>
+    <div class="container">
+        <!-- Повідомлення про відсутність продуктів -->
+        <div th:if="${#lists.isEmpty(pageMyAllProductsInSelling.content)}" class="no-products">
+            У вас немає продуктів у продажу.
+        </div>
+
+        <!-- Список продуктів, якщо вони є -->
+        <div th:if="${!#lists.isEmpty(pageMyAllProductsInSelling.content)}" class="product-grid">
+            <div th:each="product : ${pageMyAllProductsInSelling.content}" class="product-card">
+                <a th:href="@{/getProduct(id=${product.id})}">
+                    <img th:src="'data:image/jpeg;base64,' + ${product.base64Image}" th:alt="${product.name}">
+                    <h2 th:text="${product.name}">Назва продукту</h2>
+                </a>
+            </div>
+        </div>
+
+        <div class="pagination">
+            <a th:if="${currentPage > 0}" th:href="@{/myAccount/getMyAllProductsInSelling(page=${currentPage - 1}, size=${size})}">Попередня</a>
+            <span th:text="'Сторінка ' + (${currentPage + 1}) + ' з ' + ${totalPages}">Сторінка 1 з 1</span>
+            <a th:if="${currentPage + 1 < totalPages}" th:href="@{/myAccount/getMyAllProductsInSelling(page=${currentPage + 1}, size=${size})}">Наступна</a>
+        </div>
+
+        <div class="account-link">
+            <p><a th:href="@{/myAccount}">Назад до акаунту</a></p>
+        </div>
+    </div>
+</body>
+</html>

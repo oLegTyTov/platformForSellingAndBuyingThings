@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Account Page</title>
+    <style>
+        /* Основні стилі для сторінки */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Стилі для header і footer */
+        header, footer {
+            background-color: #5a4b6d; /* Темний фіолетовий */
+            color: white;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+        }
+
+        /* Основний контейнер */
+        main {
+            padding: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* Стилі для блоків з посиланнями */
+        .account-details, .link-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            padding: 15px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .account-details:hover, .link-container:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Стилі для посилань */
+        a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        a:hover {
+            color: #0056b3;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Анімації для переходів */
+        .fade-in {
+            opacity: 0;
+            transition: opacity 0.5s ease-in;
+        }
+
+        .fade-in.show {
+            opacity: 1;
+        }
+
+        /* Стилі для темної теми */
+        .dark-mode body {
+            background-color: #333;
+            color: #f4f4f9;
+        }
+
+        .dark-mode header, .dark-mode footer {
+            background-color: #1a1a1a;
+        }
+
+        .dark-mode .account-details, .dark-mode .link-container {
+            background-color: #444;
+            color: #f4f4f9;
+        }
+
+        .dark-mode a {
+            color: #66aaff;
+        }
+
+        .dark-mode a:hover {
+            color: #99c2ff;
+        }
+
+        /* Додаткові стилі для адаптивності */
+        @media (max-width: 768px) {
+            main {
+                padding: 10px;
+            }
+
+            .link-container, .account-details {
+                padding: 10px;
+                font-size: 0.9em;
+            }
+        }
+
+        /* Кнопка для перемикання теми */
+        .toggle-theme-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+
+        .toggle-theme-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to Your Account Page</h1>
+    </header>
+    <main>
+        <div class="account-details fade-in">
+            <p><strong>Username:</strong> <span th:text="${name}"></span></p>
+            <p><strong>Balance:</strong> <span th:text="${balance}"></span> USD</p>
+        </div>
+        <div class="link-container fade-in">
+            <p><a th:href="@{/myAccount/addProduct}">Add a New Product</a></p>
+        </div>
+        <div class="link-container fade-in">
+            <p><a th:href="@{/myAccount/cancelProduct}">Cancel a Product</a></p>
+        </div>
+        <div class="link-container fade-in">
+            <p><a th:href="@{/getAllProducts}">Go to the Shop</a></p>
+        </div>
+        <div class="link-container fade-in">
+            <p><a th:href="@{/myAccount/getAllCanceledProducts}">View Canceled Products</a></p>
+        </div>
+        <div class="link-container fade-in">
+            <p><a th:href="@{/myAccount/getMyAllProductsInSelling}">View My Products in Selling</a></p>
+        </div>
+        <div class="link-container fade-in">
+            <p><a th:href="@{/myAccount/getAllBoughtProducts}">View My Bought Products</a></p>
+        </div>
+        <div class="link-container fade-in">
+            <p><a th:href="@{/myAccount/getAllSoldProducts}">View All Sold Products</a></p>
+        </div>
+        <div class="link-container fade-in">
+            <p><a th:href="@{/myAccount/addBalance}">Add Balance</a></p> <!-- Додано нове посилання -->
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2024 Your Company. All rights reserved.</p>
+    </footer>
+    <button class="toggle-theme-button">Toggle Dark Mode</button>
+    <script>
+        // Функція для показу анімації fade-in
+        document.addEventListener('DOMContentLoaded', function () {
+            var elements = document.querySelectorAll('.fade-in');
+            elements.forEach(function (element) {
+                setTimeout(function () {
+                    element.classList.add('show');
+                }, 200); // Затримка для ефекту
+            });
+        });
+
+        // Перемикання теми
+        const toggleThemeButton = document.querySelector('.toggle-theme-button');
+        let isDarkMode = false;
+
+        toggleThemeButton.addEventListener('click', function () {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode', isDarkMode);
+        });
+    </script>
+</body>
+</html>

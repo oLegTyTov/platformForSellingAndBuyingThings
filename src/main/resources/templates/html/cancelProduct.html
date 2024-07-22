@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cancel Product</title>
+    <style>
+        /* Основні стилі */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9; /* Світло-сірий фон */
+            color: #333;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        header {
+            background-color: #5a4b6d; /* Темний фіолетовий */
+            color: white;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+        }
+
+        nav a {
+            color: #d8d8d8; /* Світлий сірий */
+            text-decoration: none;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #ffffff; /* Білий */
+        }
+
+        main {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .product-item {
+            background-color: #f2d6c1; /* Колір шкіри */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .product-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .product-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+
+        .product-item p {
+            font-size: 1.1em;
+            margin: 10px 0 0;
+        }
+
+        .product-item input[type="radio"] {
+            display: block;
+            margin: 0 auto 10px;
+        }
+
+        .pagination {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .pagination a {
+            text-decoration: none;
+            color: #007bff;
+            margin: 0 10px;
+            font-size: 1.1em;
+        }
+
+        .pagination a:hover {
+            text-decoration: underline;
+        }
+
+        .pagination span {
+            font-size: 1.1em;
+            color: #666;
+        }
+
+        .pagination span a {
+            color: #007bff;
+        }
+
+        .pagination span a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            background-color: #5a4b6d; /* Темний фіолетовий */
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Стилі для темної теми */
+        .dark-mode body {
+            background-color: #333;
+            color: #f4f4f9;
+        }
+
+        .dark-mode header {
+            background-color: #1a1a1a;
+        }
+
+        .dark-mode .product-item {
+            background-color: #444;
+            color: #f4f4f9;
+        }
+
+        .dark-mode .product-item:hover {
+            background-color: #555;
+        }
+
+        .dark-mode .pagination a {
+            color: #66aaff;
+        }
+
+        .dark-mode .pagination a:hover {
+            color: #ffffff;
+        }
+
+        /* Кнопка для перемикання теми */
+        .toggle-theme-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+
+        .toggle-theme-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Стилі для кнопки скасування продукту */
+        form button[type="submit"] {
+            background-color: #ffab40; /* Оранжевий */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+        }
+
+        form button[type="submit"]:hover {
+            background-color: #e59a36; /* Темніший оранжевий */
+        }
+
+        form button[type="submit"]:active {
+            background-color: #cc8830; /* Ще темніший оранжевий */
+            transform: scale(0.95);
+        }
+
+        /* Стилі для повідомлення про відсутність продуктів */
+        .no-products {
+            text-align: center;
+            color: #888;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Cancel Product</h1>
+        <nav>
+            <a href="/myAccount">My Account</a>
+        </nav>
+    </header>
+
+    <!-- Product List with Checkboxes -->
+    <main>
+        <!-- Перевірка на порожній список продуктів -->
+        <div th:if="${productPage.content.isEmpty()}">
+            <p class="no-products">В даний момент у вас немає продуктів в продажі, щоб їх відмінити.</p>
+        </div>
+        <div th:if="${not productPage.content.isEmpty()}">
+            <form th:action="@{/myAccount/cancelProduct}" method="post">
+                <div class="product-grid">
+                    <div th:each="product : ${productPage.content}" class="product-item">
+                        <input type="radio" th:name="id" th:value="${product.id}" />
+                        <img th:src="'data:image/jpeg;base64,' + ${product.base64Image}" th:alt="${product.name}" />
+                        <p th:text="${product.name}">Product Name</p>
+                    </div>
+                </div>
+                <button type="submit">Cancel Product</button>
+            </form>
+        </div>
+
+        <!-- Pagination Links -->
+        <div class="pagination">
+            <span th:if="${productPage.number > 0}">
+                <a th:href="@{/myAccount/cancelProduct(page=${productPage.number - 1}, size=${productPage.size})}">Попередня</a>
+            </span>
+            <span th:if="${productPage.number + 1 < productPage.totalPages}">
+                <a th:href="@{/myAccount/cancelProduct(page=${productPage.number + 1}, size=${productPage.size})}">Наступна</a>
+            </span>
+        </div>
+    </main>
+    
+    <footer>
+        <p>&copy; 2024 Your Company. All rights reserved.</p>
+    </footer>
+
+    <button class="toggle-theme-button">Toggle Dark Mode</button>
+
+    <script>
+        // Перемикання теми
+        const toggleThemeButton = document.querySelector('.toggle-theme-button');
+        let isDarkMode = false;
+
+        toggleThemeButton.addEventListener('click', function () {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode', isDarkMode);
+        });
+
+        // Підтвердження перед відправкою форми
+        const form = document.querySelector('form');
+        form.addEventListener('submit', function (event) {
+            if (!confirm('Are you sure you want to cancel this product?')) {
+                event.preventDefault(); // Скасувати відправку форми
+            }
+        });
+    </script>
+</body>
+</html>

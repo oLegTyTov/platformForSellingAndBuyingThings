@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Product List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9; /* світло-сірий фон */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        header {
+            background-color: #5a4b6d; /* темний фіолетовий */
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        header a {
+            color: #d8d8d8; /* світлий сірий */
+            text-decoration: none;
+            font-size: 1.2em;
+            transition: color 0.3s ease; /* плавний перехід кольору */
+        }
+
+        header a:hover {
+            color: #ffab40; /* оранжевий при наведенні */
+        }
+
+        .filter-toggle {
+            background-color: #78c2ad; /* зелений */
+            color: white;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            margin: 20px auto;
+            width: 90%;
+            max-width: 800px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+        }
+
+        .filter-toggle:hover {
+            background-color: #66a896; /* темніший зелений */
+        }
+
+        .filter {
+            display: none;
+            background-color: #ffffff; /* білий фон */
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+            width: 90%;
+            max-width: 800px;
+            border-radius: 8px;
+            transition: opacity 0.3s ease;
+        }
+
+        .filter div {
+            margin-bottom: 10px;
+        }
+
+        .filter label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .filter input[type="text"],
+        .filter input[type="number"],
+        .filter input[type="date"],
+        .filter input[type="radio"] {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            background-color: #f8f9fa; /* світло-сірий */
+            color: #333;
+        }
+
+        .filter button {
+            background-color: #ffab40; /* оранжевий */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+        }
+
+        .filter button:hover {
+            background-color: #e59a36; /* темніший оранжевий */
+        }
+
+        .filter button:active {
+            background-color: #cc8830; /* ще темніший оранжевий */
+            transform: scale(0.95);
+        }
+
+        .product-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 20px;
+            flex: 1;
+        }
+
+        .product-item {
+            background-color: #ffefc1; /* світло-жовтий */
+            flex: 0 0 30%;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            padding: 10px;
+            text-align: center;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+        }
+
+        .product-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .product-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: contain; /* зберігає пропорції без обрізання */
+            border-bottom: 1px solid #e0e0e0;
+            margin-bottom: 10px;
+        }
+
+        .product-item a {
+            text-decoration: none;
+            color: #333;
+            transition: color 0.3s ease;
+        }
+
+        .product-item a:hover {
+            color: #d95b5b; /* червоний */
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .pagination a {
+            margin: 0 5px;
+            text-decoration: none;
+            color: #d95b5b; /* червоний */
+            transition: color 0.3s ease;
+        }
+
+        .pagination a.active {
+            font-weight: bold;
+            color: #b84a4a; /* темніший червоний */
+        }
+
+        .pagination a:hover {
+            color: #9c3f3f; /* ще темніший червоний */
+        }
+
+        footer {
+            background-color: #5a4b6d; /* темний фіолетовий */
+            color: white;
+            text-align: center;
+            padding: 10px;
+            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Стилі для категорій фільтра */
+        .filter-category {
+            margin-bottom: 10px;
+        }
+
+        .filter-category input[type="radio"] {
+            display: none; /* Сховати радіо-кнопки */
+        }
+
+        .filter-category label {
+            display: block;
+            padding: 10px;
+            background-color: #f8f9fa; /* світло-сірий */
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .filter-category input[type="radio"]:checked + label {
+            background-color: #78c2ad; /* зелений */
+            color: white;
+            border-color: #78c2ad; /* зелений */
+        }
+
+        /* Стилі для повідомлення про відсутність продуктів */
+        .no-products {
+            text-align: center;
+            color: #888;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+    </style>
+    <script>
+        function toggleFilter() {
+            var filter = document.querySelector('.filter');
+            if (filter.style.display === 'none' || filter.style.display === '') {
+                filter.style.display = 'block';
+                filter.style.opacity = '1';
+            } else {
+                filter.style.opacity = '0';
+                setTimeout(() => filter.style.display = 'none', 300); // Wait for fade-out transition
+            }
+        }
+
+        // JavaScript для оновлення кольору вибраної категорії
+        document.addEventListener('DOMContentLoaded', function () {
+            var radios = document.querySelectorAll('.filter-category input[type="radio"]');
+            radios.forEach(function (radio) {
+                radio.addEventListener('change', function () {
+                    radios.forEach(function (r) {
+                        r.nextElementSibling.classList.remove('active');
+                    });
+                    if (radio.checked) {
+                        radio.nextElementSibling.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Product List</h1>
+        <a href="/myAccount">Мій обліковий запис</a>
+    </header>
+    
+    <!-- Filter Toggle Button -->
+    <div class="filter-toggle" onclick="toggleFilter()">Toggle Filter</div>
+    
+    <!-- Filter Form -->
+    <div class="filter">
+        <form th:action="@{/getAllProducts}" th:object="${productFilter}" method="get">
+            <div>
+                <label for="name">Name:</label>
+                <input type="text" id="name" th:field="*{name}" />
+            </div>
+            <div>
+                <label for="priceMin">Min Price:</label>
+                <input type="number" id="priceMin" th:field="*{priceMin}" />
+            </div>
+            <div>
+                <label for="priceMax">Max Price:</label>
+                <input type="number" id="priceMax" th:field="*{priceMax}" />
+            </div>
+            <div>
+                <label for="dateMin">From Date:</label>
+                <input type="date" id="dateMin" th:field="*{dateMin}" />
+            </div>
+            <div>
+                <label for="dateMax">To Date:</label>
+                <input type="date" id="dateMax" th:field="*{dateMax}" />
+            </div>
+            <div class="filter-category">
+                <label>Category:</label><br>
+                <input type="radio" id="category1" name="category" value="Ноутбуки Та Комп'ютери">
+                <label for="category1">Ноутбуки Та Комп'ютери</label><br>
+                <input type="radio" id="category2" name="category" value="Побутова Техніка">
+                <label for="category2">Побутова Техніка</label><br>
+                <input type="radio" id="category3" name="category" value="Книги">
+                <label for="category3">Книги</label><br>
+                <input type="radio" id="category4" name="category" value="">
+                <label for="category4">Все</label><br>
+            </div>
+            <button type="submit">Шукати</button>
+        </form>
+    </div>
+
+    <!-- Product Grid -->
+    <div class="product-grid">
+        <!-- Виведення повідомлення про відсутність продуктів -->
+        <div th:if="${#lists.isEmpty(productPage.content)}" class="no-products">
+            Немає жодного продукту в продажу.
+        </div>
+
+        <!-- Виведення продуктів, якщо вони є -->
+        <div th:if="${!#lists.isEmpty(productPage.content)}">
+            <div th:each="product : ${productPage.content}" class="product-item">
+                <a th:href="@{/getProduct(id=${product.id})}">
+                    <img th:src="'data:image/jpeg;base64,' + ${product.base64Image}" th:alt="${product.name}">
+                    <p th:text="${product.name}">Product Name</p>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination">
+        <a th:if="${currentPage > 0}" th:href="@{/getAllProducts(page=${currentPage - 1}, size=${size}, name=${productFilter.name}, priceMin=${productFilter.priceMin}, priceMax=${productFilter.priceMax}, dateMin=${#dates.format(productFilter.dateMin, 'yyyy-MM-dd')}, dateMax=${#dates.format(productFilter.dateMax, 'yyyy-MM-dd')}, category=${productFilter.category})}">Попередня</a>
+        <span th:text="'Сторінка ' + ${currentPage + 1} + ' з ' + ${totalPages}">Сторінка 1 з 1</span>
+        <a th:if="${currentPage + 1 < totalPages}" th:href="@{/getAllProducts(page=${currentPage + 1}, size=${size}, name=${productFilter.name}, priceMin=${productFilter.priceMin}, priceMax=${productFilter.priceMax}, dateMin=${#dates.format(productFilter.dateMin, 'yyyy-MM-dd')}, dateMax=${#dates.format(productFilter.dateMax, 'yyyy-MM-dd')}, category=${productFilter.category})}">Наступна</a>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Our Platform. All rights reserved.</p>
+    </footer>
+</body>
+</html>

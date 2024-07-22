@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cancelled Products</title>
+    <link rel="stylesheet" href="/styles.css"> <!-- Підключення стилів -->
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9; /* Світло-сірий фон */
+            color: #333;
+        }
+
+        header {
+            background-color: #5a4b6d; /* Темний фіолетовий */
+            color: white;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header a {
+            color: #d8d8d8; /* Світлий сірий */
+            text-decoration: none;
+            margin-left: 10px;
+        }
+
+        header a:hover {
+            color: #ffffff; /* Білий */
+        }
+
+        .product-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .product-item {
+            background-color: #f2d6c1; /* Колір шкіри */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            text-align: center;
+            flex: 0 1 calc(33.333% - 20px); /* Три продукти в рядок */
+            box-sizing: border-box;
+        }
+
+        .product-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .pagination {
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .pagination a {
+            margin: 0 5px;
+            text-decoration: none;
+            color: white; /* Змінив колір тексту на білий */
+            background-color: #007bff; /* Синій фон */
+            padding: 5px 10px; /* Додав padding */
+            border-radius: 4px; /* Додав border-radius */
+            font-weight: bold;
+        }
+
+        .pagination a:hover {
+            background-color: #0056b3; /* Темніший синій */
+        }
+
+        .pagination a.disabled {
+            color: #ccc;
+        }
+
+        .delete-all-canceled-products {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .delete-all-canceled-products a {
+            color: #ff0000;
+            text-decoration: none;
+        }
+
+        .delete-all-canceled-products a:hover {
+            text-decoration: underline;
+        }
+
+        .no-products {
+            text-align: center;
+            color: #888;
+            font-size: 18px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Cancelled Products</h1>
+        <a href="/myAccount">Мій обліковий запис</a>
+    </header>
+
+    <!-- Список скасованих продуктів -->
+    <div class="product-grid">
+        <!-- Повідомлення про відсутність скасованих продуктів -->
+        <div th:if="${#lists.isEmpty(productsCanceledPage.content)}" class="no-products">
+            Немає скасованих продуктів.
+        </div>
+
+        <!-- Виведення скасованих продуктів, якщо вони є -->
+        <div th:if="${!#lists.isEmpty(productsCanceledPage.content)}">
+            <div th:each="product : ${productsCanceledPage.content}" class="product-item">
+                <img th:src="'data:image/jpeg;base64,' + ${product.base64Image}" th:alt="${product.name}" class="product-image">
+                <h3 th:text="${product.name}">Product Name</h3>
+                <p>Category: <span th:text="${product.category}">Category</span></p>
+                <p th:text="'Price: ' + ${product.price}">Price</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Навігація для пагінації -->
+    <div class="pagination">
+        <a th:if="${currentPage > 0}" th:href="@{/myAccount/getAllCanceledProducts(page=${currentPage - 1}, size=${size})}">Попередня</a>
+        <span th:text="'Сторінка ' + (${currentPage + 1}) + ' з ' + ${totalPages}">Сторінка 1 з 1</span>
+        <a th:if="${currentPage + 1 < totalPages}" th:href="@{/myAccount/getAllCanceledProducts(page=${currentPage + 1}, size=${size})}">Наступна</a>
+    </div>
+
+    <!-- Повернення на головну сторінку або інше посилання -->
+    <div style="text-align: center; margin: 20px;">
+        <a href="/myAccount">Back to Home</a>
+    </div>
+
+    <!-- Додане посилання на видалення всіх скасованих продуктів -->
+    <div class="delete-all-canceled-products">
+        <a th:href="@{/myAccount/deleteAllCanceledProducts}" onclick="return confirm('Are you sure you want to delete all canceled products?');">Delete All Canceled Products</a>
+    </div>
+</body>
+</html>

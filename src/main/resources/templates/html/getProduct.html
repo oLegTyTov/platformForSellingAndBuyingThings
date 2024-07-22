@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${product.name}">Деталі продукту</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .product-details {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .product-image {
+            flex: 0 0 45%;
+        }
+        .product-image img {
+            width: 100%;
+            height: auto;
+        }
+        .product-info {
+            flex: 0 0 50%;
+        }
+        .product-info h1 {
+            font-size: 2em;
+        }
+        .product-info .price {
+            font-size: 1.5em;
+            color: #b12704;
+            margin: 10px 0;
+        }
+        .product-info .description {
+            margin: 20px 0;
+        }
+        .product-info .owner {
+            font-size: 0.9em;
+            color: #555;
+        }
+        .product-info .type-of-item {
+            margin: 10px 0;
+        }
+        .product-info .date {
+            font-size: 0.8em;
+            color: #777;
+        }
+        .buy-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #f0c14b;
+            border: 1px solid #a88734;
+            text-align: center;
+            text-decoration: none;
+            color: black;
+            border-radius: 3px;
+            display: inline-block;
+        }
+        .buy-button:hover {
+            background-color: #e2b33c;
+        }
+        .back-button {
+            margin-top: 20px;
+        }
+        .login-message, .balance-message, .sameaccount-message {
+            margin-top: 20px;
+            padding: 10px 20px;
+            border: 1px solid #dd4b39;
+            border-radius: 3px;
+        }
+        .login-message {
+            background-color: #ffdddd;
+            color: #dd4b39;
+        }
+        .balance-message {
+            background-color: #ffdddd;
+            color: #dd4b39;
+        }
+        .sameaccount-message {
+            background-color: #ddffdd;
+            color: #39dd4b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="back-button">
+            <a th:href="@{/getAllProducts}" style="text-decoration: none; color: #0073bb;">&larr; Повернутися до списку продуктів</a>
+        </div>
+        <div class="product-details">
+            <div class="product-image">
+                <img th:src="'data:image/jpeg;base64,' + ${product.base64Image}" th:alt="${product.name}">
+            </div>
+            <div class="product-info">
+                <h1 th:text="${product.name}">Назва продукту</h1>
+                <p class="price" th:text="'Ціна: ' + ${product.price} + ' грн'">Ціна: 0 грн</p>
+                <div class="description">
+                    <h3>Опис</h3>
+                    <p th:text="${product.description}">Опис продукту</p>
+                </div>
+                <div class="owner">
+                    <h3>Продавець</h3>
+                    <p th:text="'Продавець: ' + ${product.accountowner.username}">Продавець: Username</p>
+                    <p th:text="'Країна: ' + ${product.accountowner.country}">Країна: Country</p>
+                </div>
+                <div class="category">
+                    <h3>Категорія</h3>
+                    <p th:text="${product.category}">Категорія</p>
+                </div>
+                <div class="date">
+                    <p th:text="'Дата створення продукту: ' + ${#temporals.format(product.datecreatingproduct, 'yyyy-MM-dd')}">Дата створення продукту: yyyy-MM-dd</p>
+                </div>
+                <div th:if="${balance != null}">
+                    <div th:if="${balance == false}" class="balance-message">
+                        Недостатньо грошей на рахунку.
+                    </div>
+                </div>
+                <div th:if="${sameaccount != null}">
+                    <div th:if="${sameaccount == true}" class="sameaccount-message">
+                        Вибачте, але ви не можете купити свій же продукт.
+                    </div>
+                </div>
+                <a th:href="@{/myAccount/addProductBought(id=${product.id})}" onclick="return confirm('Are you sure you want to delete all canceled products?');" class="buy-button">Купити</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

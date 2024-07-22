@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Main Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9; /* світло-сірий фон */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            color: #333;
+        }
+        header {
+            background-color: #5a4b6d; /* темний фіолетовий */
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        main {
+            flex: 1;
+            padding: 20px;
+            background-color: #ffffff; /* білий фон */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+            max-width: 800px;
+            border-radius: 8px;
+        }
+        main p {
+            font-size: 1.2em;
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px 0;
+            font-size: 1em;
+            color: white;
+            background-color: #78c2ad; /* зелений */
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: #66a896; /* темніший зелений */
+        }
+        footer {
+            background-color: #5a4b6d; /* темний фіолетовий */
+            color: white;
+            text-align: center;
+            padding: 10px;
+            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to Our Platform</h1>
+    </header>
+    <main>
+        <p>Our platform offers the best products from various categories. Browse through our market to find exactly what you need.</p>
+        <p>Here, you can sell your own products, buy from others, and much more. Our secure platform ensures safe and reliable transactions.</p>
+        <p>Join us today and become a part of our growing community!</p>
+        <div>
+            <a th:href="@{/getAllProducts}" class="button">Go to Market</a>
+            <div th:if="${!isAuthenticated}">
+                <a th:href="@{/login}" class="button">Login</a>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2024 Our Platform. All rights reserved.</p>
+    </footer>
+</body>
+</html>
