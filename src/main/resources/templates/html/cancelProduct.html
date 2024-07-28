@@ -197,7 +197,7 @@
     <header>
         <h1>Cancel Product</h1>
         <nav>
-            <a href="/myAccount">My Account</a>
+            <a href="/myAccount" th:text="#{cancel_product.my_account}">My Account</a>
         </nav>
     </header>
 
@@ -205,7 +205,7 @@
     <main>
         <!-- Перевірка на порожній список продуктів -->
         <div th:if="${productPage.content.isEmpty()}">
-            <p class="no-products">В даний момент у вас немає продуктів в продажі, щоб їх відмінити.</p>
+            <p class="no-products" th:text="#{cancel_product.no_products}">В даний момент у вас немає продуктів в продажі, щоб їх відмінити.</p>
         </div>
         <div th:if="${not productPage.content.isEmpty()}">
             <form th:action="@{/myAccount/cancelProduct}" method="post">
@@ -223,10 +223,10 @@
         <!-- Pagination Links -->
         <div class="pagination">
             <span th:if="${productPage.number > 0}">
-                <a th:href="@{/myAccount/cancelProduct(page=${productPage.number - 1}, size=${productPage.size})}">Попередня</a>
+                <a th:href="@{/myAccount/cancelProduct(page=${productPage.number - 1}, size=${productPage.size})}"  th:text="#{cancel_product.previous}">Попередня</a>
             </span>
             <span th:if="${productPage.number + 1 < productPage.totalPages}">
-                <a th:href="@{/myAccount/cancelProduct(page=${productPage.number + 1}, size=${productPage.size})}">Наступна</a>
+                <a th:href="@{/myAccount/cancelProduct(page=${productPage.number + 1}, size=${productPage.size})}" th:text="#{cancel_product.next}">Наступна</a>
             </span>
         </div>
     </main>

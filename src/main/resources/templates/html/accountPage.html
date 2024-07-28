@@ -130,36 +130,36 @@
     </header>
     <main>
         <div class="account-details fade-in">
-            <p><strong>Username:</strong> <span th:text="${name}"></span></p>
-            <p><strong>Balance:</strong> <span th:text="${balance}"></span> USD</p>
+            <p><strong th:text="#{account_page.username}">Username:</strong> <span th:text="${name}"></span></p>
+            <p><strong th:text="#{account_page.balance}">Balance:</strong> <span th:text="${balance}"></span> USD</p>
         </div>
         <div class="link-container fade-in">
-            <p><a th:href="@{/myAccount/addProduct}">Add a New Product</a></p>
+            <p><a th:href="@{/myAccount/addProduct}" th:text="#{account_page.add_new_product}">Add a New Product</a></p>
         </div>
         <div class="link-container fade-in">
-            <p><a th:href="@{/myAccount/cancelProduct}">Cancel a Product</a></p>
+            <p><a th:href="@{/myAccount/cancelProduct}" th:text="#{account_page.cancel_product}">Cancel a Product</a></p>
         </div>
         <div class="link-container fade-in">
-            <p><a th:href="@{/getAllProducts}">Go to the Shop</a></p>
+            <p><a th:href="@{/getAllProducts}" th:text="#{account_page.go_to_shop}">Go to the Shop</a></p>
         </div>
         <div class="link-container fade-in">
-            <p><a th:href="@{/myAccount/getAllCanceledProducts}">View Canceled Products</a></p>
+            <p><a th:href="@{/myAccount/getAllCanceledProducts}" th:text="#{account_page.view_canceled_products}">View Canceled Products</a></p>
         </div>
         <div class="link-container fade-in">
-            <p><a th:href="@{/myAccount/getMyAllProductsInSelling}">View My Products in Selling</a></p>
+            <p><a th:href="@{/myAccount/getMyAllProductsInSelling}" th:text="#{account_page.view_my_products_in_selling}">View My Products in Selling</a></p>
         </div>
         <div class="link-container fade-in">
-            <p><a th:href="@{/myAccount/getAllBoughtProducts}">View My Bought Products</a></p>
+            <p><a th:href="@{/myAccount/getAllBoughtProducts}" th:text="#{account_page.view_my_bought_products}">View My Bought Products</a></p>
         </div>
         <div class="link-container fade-in">
-            <p><a th:href="@{/myAccount/getAllSoldProducts}">View All Sold Products</a></p>
+            <p><a th:href="@{/myAccount/getAllSoldProducts}" th:text="#{account_page.view_all_sold_products}">View All Sold Products</a></p>
         </div>
         <div class="link-container fade-in">
-            <p><a th:href="@{/myAccount/addBalance}">Add Balance</a></p> <!-- Додано нове посилання -->
+            <p><a th:href="@{/myAccount/addBalance}" th:text="#{account_page.add_balance}">Add Balance</a></p> <!-- Додано нове посилання -->
         </div>
     </main>
     <footer>
-        <p>&copy; 2024 Your Company. All rights reserved.</p>
+        <p>&copy; 2024 My Company. All rights reserved.</p>
     </footer>
     <button class="toggle-theme-button">Toggle Dark Mode</button>
     <script>

@@ -66,15 +66,16 @@
 </head>
 <body>
     <div class="login-container">
-        <h2>Увійти в систему</h2>
+        <h2 th:text="#{login.title}">Увійти в систему</h2>
         <form class="login-form" th:action="@{/login}" method="post">
-            <input type="email" name="username" placeholder="Електронна пошта" required>
-            <input type="password" name="password" placeholder="Пароль" required>
-            <button type="submit">Увійти</button>
+            <input type="email" name="username" th:placeholder="#{login.email_placeholder}" required>
+            <input type="password" name="password" th:placeholder="#{login.password_placeholder}" required>
+            <button type="submit" th:text="#{login.submit_button}">Увійти</button>
         </form>
-        <a class="signup-link" href="/signup">Немає акаунта? Створіть його!</a>
-        <a class="delete-link" href="/deleteAccount">Хочете видалити акаунт? Клікніть тут!</a>
-        <div th:if="${error==true}" class="error-message">Неправильні дані для входу. Спробуйте ще раз.</div>
+        <a class="signup-link" th:href="@{/signup}" th:text="#{login.signup_link}">Немає акаунта? Створіть його!</a>
+        <a class="delete-link" th:href="@{/deleteAccount}" th:text="#{login.delete_link}">Хочете видалити акаунт? Клікніть тут!</a>
+        <div th:if="${error == true}" class="error-message" th:text="#{login.error_message}">Неправильні дані для входу. Спробуйте ще раз.</div>
     </div>
 </body>
+
 </html>

@@ -69,16 +69,16 @@
 </head>
 <body>
     <div class="delete-container">
-        <h2>Видалити акаунт</h2>
+        <h2 th:text="#{delete_account.delete_account}">Видалити акаунт</h2>
         <div th:if="${foundAccount!=null}">
-        <div th:if="${!foundAccount}" class="error-message">Акаунт з такою електронною поштою не існує. Перевірте введені дані.</div>
+        <div th:if="${!foundAccount}" class="error-message" th:text="#{delete_account.no_account}">Акаунт з такою електронною поштою не існує. Перевірте введені дані.</div>
     </div>
         <form class="delete-form" th:action="@{/deleteAccount}" method="post">
             <input type="email" name="email" placeholder="Електронна пошта" required><br>
             <input type="password" name="password" placeholder="Пароль" required><br>
-            <button type="submit">Видалити акаунт</button>
+            <button type="submit" th:text="#{delete_account.delete_account}">Видалити акаунт</button>
         </form>
-        <a class="cancel-link" href="/login">Скасувати</a>
+        <a class="cancel-link" href="/login" th:text="#{delete_account.cancel}">Скасувати</a>
     </div>
 </body>
 </html>

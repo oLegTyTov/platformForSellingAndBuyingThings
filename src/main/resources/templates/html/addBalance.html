@@ -100,20 +100,20 @@
 </head>
 <body>
     <header>
-        <h1>Поповнити баланс</h1>
-        <a th:href="@{/myAccount}">Мій обліковий запис</a>
+        <h1 th:text="#{add_balance.add_balance}">Поповнити баланс</h1>
+        <a th:href="@{/myAccount}" th:text="#{add_balance.my_account}">Мій обліковий запис</a>
     </header>
 
     <div class="container">
         <div class="form-container">
-            <h1>Поповнити баланс</h1>
+            <h1 th:text="#{add_balance.add_balance}">Поповнити баланс</h1>
             <form action="#" th:action="@{/myAccount/addBalance}" method="post">
                 <div class="form-group">
-                    <label for="balance">Сума для поповнення:</label>
+                    <label for="balance" th:text="#{add_balance.amount_of_money}">Сума для поповнення:</label>
                     <input type="number" id="balance" name="balance" step="0.01" min="0" required>
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="Поповнити">
+                    <input type="submit" th:value="#{add_balance.submit}">
                 </div>
             </form>
         </div>

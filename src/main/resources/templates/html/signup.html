@@ -69,16 +69,17 @@
 </head>
 <body>
     <div class="signup-container">
-        <h2>Створити новий акаунт</h2>
-        <div th:if="${sameAccount}" class="error-message">Акаунт з такою електронною поштою або ім'ям вже існує. Спробуйте увійти або використати іншу електронну пошту.</div>
+        <h2 th:text="#{signup.create_account}">Створити новий акаунт</h2>
+        <div th:if="${sameAccount}" class="error-message" th:text="#{signup.account_exists}">Акаунт з такою електронною поштою або ім'ям вже існує. Спробуйте увійти або використати іншу електронну пошту.</div>
         <form class="signup-form" th:action="@{/signup}" method="post">
-            <input type="email" name="email" placeholder="Електронна пошта" required><br>
-            <input type="text" name="username" placeholder="Ім'я користувача" required><br>
-            <input type="password" name="password" placeholder="Пароль" required><br>
-            <input type="text" name="country" placeholder="Країна" required><br>
-            <button type="submit">Створити акаунт</button>
+            <input type="email" name="email" th:placeholder="#{signup.email_placeholder}" required><br>
+            <input type="text" name="username" th:placeholder="#{signup.username_placeholder}" required><br>
+            <input type="password" name="password" th:placeholder="#{signup.password_placeholder}" required><br>
+            <input type="text" name="country" th:placeholder="#{signup.country_placeholder}" required><br>
+            <button type="submit" th:text="#{signup.submit_button}">Створити акаунт</button>
         </form>
-        <a class="login-link" href="/login">Вже маєте акаунт? Увійдіть!</a>
+        <a class="login-link" th:href="@{/login}" th:text="#{signup.login_link}">Вже маєте акаунт? Увійдіть!</a>
     </div>
 </body>
+
 </html>

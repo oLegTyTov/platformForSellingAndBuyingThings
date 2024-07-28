@@ -106,13 +106,13 @@
 <body>
     <header>
         <h1>Cancelled Products</h1>
-        <a href="/myAccount">Мій обліковий запис</a>
+        <a href="/myAccount" th:text="#{get_all_canceled_products.get_all_canceled_products}">Мій обліковий запис</a>
     </header>
 
     <!-- Список скасованих продуктів -->
     <div class="product-grid">
         <!-- Повідомлення про відсутність скасованих продуктів -->
-        <div th:if="${#lists.isEmpty(productsCanceledPage.content)}" class="no-products">
+        <div th:if="${#lists.isEmpty(productsCanceledPage.content)}" class="no-products" th:text="#{get_all_canceled_products.no_products}">
             Немає скасованих продуктів.
         </div>
 
@@ -122,16 +122,16 @@
                 <img th:src="'data:image/jpeg;base64,' + ${product.base64Image}" th:alt="${product.name}" class="product-image">
                 <h3 th:text="${product.name}">Product Name</h3>
                 <p>Category: <span th:text="${product.category}">Category</span></p>
-                <p th:text="'Price: ' + ${product.price}">Price</p>
+                <p th:text="#{get_all_canceled_products.get_all_canceled_products}+' ' + ${product.price}">Price</p>
             </div>
         </div>
     </div>
 
     <!-- Навігація для пагінації -->
     <div class="pagination">
-        <a th:if="${currentPage > 0}" th:href="@{/myAccount/getAllCanceledProducts(page=${currentPage - 1}, size=${size})}">Попередня</a>
-        <span th:text="'Сторінка ' + (${currentPage + 1}) + ' з ' + ${totalPages}">Сторінка 1 з 1</span>
-        <a th:if="${currentPage + 1 < totalPages}" th:href="@{/myAccount/getAllCanceledProducts(page=${currentPage + 1}, size=${size})}">Наступна</a>
+        <a th:if="${currentPage > 0}" th:href="@{/myAccount/getAllCanceledProducts(page=${currentPage - 1}, size=${size})}" th:text="#{get_all_canceled_products.previous}">Попередня</a>
+        <span th:text="#{get_all_canceled_products.page} + (${currentPage + 1}) + ' з ' + ${totalPages}">Сторінка 1 з 1</span>
+        <a th:if="${currentPage + 1 < totalPages}" th:href="@{/myAccount/getAllCanceledProducts(page=${currentPage + 1}, size=${size})}" th:text="#{get_all_canceled_products.next}">Наступна</a>
     </div>
 
     <!-- Повернення на головну сторінку або інше посилання -->
@@ -141,7 +141,13 @@
 
     <!-- Додане посилання на видалення всіх скасованих продуктів -->
     <div class="delete-all-canceled-products">
-        <a th:href="@{/myAccount/deleteAllCanceledProducts}" onclick="return confirm('Are you sure you want to delete all canceled products?');">Delete All Canceled Products</a>
+        <a th:href="@{/myAccount/deleteAllCanceledProducts}"
+        th:text="#{get_all_canceled_products.label}"
+        onclick="return confirm(document.getElementById('confirmMessage').innerText);">Delete All Canceled Products</a>
+     
+     <!-- Hidden element to hold the localized confirmation message -->
+     <span id="confirmMessage" th:text="#{get_all_canceled_products.confirm}" style="display:none;"></span>
+     
     </div>
 </body>
 </html>

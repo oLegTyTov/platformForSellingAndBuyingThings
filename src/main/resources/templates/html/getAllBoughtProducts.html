@@ -109,9 +109,9 @@
 </head>
 <body>
     <div class="container">
-        <h1>Придбані продукти</h1>
+        <h1 th:text="#{get_all_bought_products.get_all_bought_products}">Придбані продукти</h1>
         <div th:if="${pageBoughtProducts.content.isEmpty()}">
-            <p class="no-products">Ви ще нічого не придбали.</p>
+            <p class="no-products" th:text="#{get_all_bought_products.no_products}">Ви ще нічого не придбали.</p>
         </div>
         <div th:if="${not pageBoughtProducts.content.isEmpty()}">
             <div class="product-grid">
@@ -122,9 +122,9 @@
             </div>
         </div>
         <div class="pagination">
-            <a th:if="${currentPage > 0}" th:href="@{/myAccount/getAllBoughtProducts(page=${currentPage - 1}, size=${size})}">Попередня</a>
-            <span th:text="'Сторінка ' + (${currentPage + 1}) + ' з ' + ${totalPages}">Сторінка 1 з 1</span>
-            <a th:if="${currentPage + 1 < totalPages}" th:href="@{/myAccount/getAllBoughtProducts(page=${currentPage + 1}, size=${size})}">Наступна</a>
+            <a th:if="${currentPage > 0}" th:href="@{/myAccount/getAllBoughtProducts(page=${currentPage - 1}, size=${size})}"th:text="#{get_all_bought_products.previous}" >Попередня</a>
+            <span th:text="#{get_all_bought_products.page} + (${currentPage + 1}) + ' з ' + ${totalPages}">Сторінка 1 з 1</span>
+            <a th:if="${currentPage + 1 < totalPages}" th:href="@{/myAccount/getAllBoughtProducts(page=${currentPage + 1}, size=${size})}" th:text="#{get_all_bought_products.next}">Наступна</a>
         </div>
         <div class="return-link">
             <p><a th:href="@{/myAccount}">Повернутися до акаунту</a></p>

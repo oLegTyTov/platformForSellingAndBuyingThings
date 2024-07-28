@@ -245,55 +245,55 @@
 </head>
 <body>
     <header>
-        <h1>Product List</h1>
-        <a href="/myAccount">Мій обліковий запис</a>
+        <h1 th:text="#{product_list.page_title}">Product List</h1>
+        <a th:href="@{/myAccount}" th:text="#{product_list.my_account}">Мій обліковий запис</a>
     </header>
     
     <!-- Filter Toggle Button -->
-    <div class="filter-toggle" onclick="toggleFilter()">Toggle Filter</div>
+    <div class="filter-toggle" onclick="toggleFilter()" th:text="#{product_list.toggle_filter}">Toggle Filter</div>
     
     <!-- Filter Form -->
     <div class="filter">
         <form th:action="@{/getAllProducts}" th:object="${productFilter}" method="get">
             <div>
-                <label for="name">Name:</label>
+                <label th:text="#{product_list.name_label}" for="name">Name:</label>
                 <input type="text" id="name" th:field="*{name}" />
             </div>
             <div>
-                <label for="priceMin">Min Price:</label>
+                <label th:text="#{product_list.min_price_label}" for="priceMin">Min Price:</label>
                 <input type="number" id="priceMin" th:field="*{priceMin}" />
             </div>
             <div>
-                <label for="priceMax">Max Price:</label>
+                <label th:text="#{product_list.max_price_label}" for="priceMax">Max Price:</label>
                 <input type="number" id="priceMax" th:field="*{priceMax}" />
             </div>
             <div>
-                <label for="dateMin">From Date:</label>
+                <label th:text="#{product_list.from_date_label}" for="dateMin">From Date:</label>
                 <input type="date" id="dateMin" th:field="*{dateMin}" />
             </div>
             <div>
-                <label for="dateMax">To Date:</label>
+                <label th:text="#{product_list.to_date_label}" for="dateMax">To Date:</label>
                 <input type="date" id="dateMax" th:field="*{dateMax}" />
             </div>
             <div class="filter-category">
-                <label>Category:</label><br>
+                <label th:text="#{product_list.category_label}">Category:</label><br>
                 <input type="radio" id="category1" name="category" value="Ноутбуки Та Комп'ютери">
-                <label for="category1">Ноутбуки Та Комп'ютери</label><br>
+                <label for="category1" th:text="#{product_list.category_laptops_computers}">Ноутбуки Та Комп'ютери</label><br>
                 <input type="radio" id="category2" name="category" value="Побутова Техніка">
-                <label for="category2">Побутова Техніка</label><br>
+                <label for="category2" th:text="#{product_list.category_appliances}">Побутова Техніка</label><br>
                 <input type="radio" id="category3" name="category" value="Книги">
-                <label for="category3">Книги</label><br>
+                <label for="category3" th:text="#{product_list.category_books}">Книги</label><br>
                 <input type="radio" id="category4" name="category" value="">
-                <label for="category4">Все</label><br>
+                <label for="category4" th:text="#{product_list.category_all}">Все</label><br>
             </div>
-            <button type="submit">Шукати</button>
+            <button type="submit" th:text="#{product_list.search_button}">Шукати</button>
         </form>
     </div>
 
     <!-- Product Grid -->
     <div class="product-grid">
         <!-- Виведення повідомлення про відсутність продуктів -->
-        <div th:if="${#lists.isEmpty(productPage.content)}" class="no-products">
+        <div th:if="${#lists.isEmpty(productPage.content)}" class="no-products" th:text="#{product_list.no_products_message}">
             Немає жодного продукту в продажу.
         </div>
 
@@ -310,13 +310,14 @@
 
     <!-- Pagination -->
     <div class="pagination">
-        <a th:if="${currentPage > 0}" th:href="@{/getAllProducts(page=${currentPage - 1}, size=${size}, name=${productFilter.name}, priceMin=${productFilter.priceMin}, priceMax=${productFilter.priceMax}, dateMin=${#dates.format(productFilter.dateMin, 'yyyy-MM-dd')}, dateMax=${#dates.format(productFilter.dateMax, 'yyyy-MM-dd')}, category=${productFilter.category})}">Попередня</a>
-        <span th:text="'Сторінка ' + ${currentPage + 1} + ' з ' + ${totalPages}">Сторінка 1 з 1</span>
-        <a th:if="${currentPage + 1 < totalPages}" th:href="@{/getAllProducts(page=${currentPage + 1}, size=${size}, name=${productFilter.name}, priceMin=${productFilter.priceMin}, priceMax=${productFilter.priceMax}, dateMin=${#dates.format(productFilter.dateMin, 'yyyy-MM-dd')}, dateMax=${#dates.format(productFilter.dateMax, 'yyyy-MM-dd')}, category=${productFilter.category})}">Наступна</a>
+        <a th:if="${currentPage > 0}" th:href="@{/getAllProducts(page=${currentPage - 1}, size=${size}, name=${productFilter.name}, priceMin=${productFilter.priceMin}, priceMax=${productFilter.priceMax}, dateMin=${#dates.format(productFilter.dateMin, 'yyyy-MM-dd')}, dateMax=${#dates.format(productFilter.dateMax, 'yyyy-MM-dd')}, category=${productFilter.category})}" th:text="#{product_list.previous_page}">Попередня</a>
+        <span th:text="#{product_list.page_info} + (${currentPage + 1}) + ' з ' + ${totalPages}">Сторінка 1 з 1</span>
+        <a th:if="${currentPage + 1 < totalPages}" th:href="@{/getAllProducts(page=${currentPage + 1}, size=${size}, name=${productFilter.name}, priceMin=${productFilter.priceMin}, priceMax=${productFilter.priceMax}, dateMin=${#dates.format(productFilter.dateMin, 'yyyy-MM-dd')}, dateMax=${#dates.format(productFilter.dateMax, 'yyyy-MM-dd')}, category=${productFilter.category})}" th:text="#{product_list.next_page}">Наступна</a>
     </div>
 
     <footer>
-        <p>&copy; 2024 Our Platform. All rights reserved.</p>
+        <p th:text="#{product_list.footer_text}">&copy; 2024 Our Platform. All rights reserved.</p>
     </footer>
 </body>
+
 </html>

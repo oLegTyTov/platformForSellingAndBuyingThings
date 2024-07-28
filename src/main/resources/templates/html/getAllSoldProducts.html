@@ -106,13 +106,12 @@
             margin-top: 20px;
         }
     </style>
-</head>
-<body>
+</head><body>
     <div class="container">
-        <h1>Продані продукти</h1>
+        <h1 th:text="#{sold_products.page_title}">Продані продукти</h1>
 
         <!-- Повідомлення про відсутність проданих продуктів -->
-        <div th:if="${#lists.isEmpty(pageSoldProducts.content)}" class="no-products">
+        <div th:if="${#lists.isEmpty(pageSoldProducts.content)}" class="no-products" th:text="#{sold_products.no_products_message}">
             У вас немає проданих продуктів.
         </div>
 
@@ -126,15 +125,16 @@
 
         <!-- Пагінація -->
         <div class="pagination">
-            <a th:if="${currentPage > 0}" th:href="@{/myAccount/getAllSoldProducts(page=${currentPage - 1}, size=${size})}">Попередня</a>
-            <span th:text="'Сторінка ' + (${currentPage + 1}) + ' з ' + ${totalPages}">Сторінка 1 з 1</span>
-            <a th:if="${currentPage + 1 < totalPages}" th:href="@{/myAccount/getAllSoldProducts(page=${currentPage + 1}, size=${size})}">Наступна</a>
+            <a th:if="${currentPage > 0}" th:href="@{/myAccount/getAllSoldProducts(page=${currentPage - 1}, size=${size})}" th:text="#{sold_products.previous_page}">Попередня</a>
+            <span th:text="#{sold_products.page_info} + (${currentPage + 1}) + ' з ' + ${totalPages}">Сторінка 1 з 1</span>
+            <a th:if="${currentPage + 1 < totalPages}" th:href="@{/myAccount/getAllSoldProducts(page=${currentPage + 1}, size=${size})}" th:text="#{sold_products.next_page}">Наступна</a>
         </div>
 
         <!-- Повернення до акаунту -->
         <div class="return-link">
-            <p><a th:href="@{/myAccount}">Повернутися до акаунту</a></p>
+            <p><a th:href="@{/myAccount}" th:text="#{sold_products.return_to_account}">Повернутися до акаунту</a></p>
         </div>
     </div>
 </body>
+
 </html>

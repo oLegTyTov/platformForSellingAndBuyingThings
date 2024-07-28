@@ -6,7 +6,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f9; /* світло-сірий фон */
+            background-color: #f4f4f9;
             margin: 0;
             padding: 0;
             display: flex;
@@ -15,7 +15,7 @@
             color: #333;
         }
         header {
-            background-color: #5a4b6d; /* темний фіолетовий */
+            background-color: #5a4b6d;
             color: white;
             padding: 20px;
             text-align: center;
@@ -28,7 +28,7 @@
         main {
             flex: 1;
             padding: 20px;
-            background-color: #ffffff; /* білий фон */
+            background-color: #ffffff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             margin: 20px auto;
             max-width: 800px;
@@ -46,7 +46,7 @@
             margin: 10px 0;
             font-size: 1em;
             color: white;
-            background-color: #78c2ad; /* зелений */
+            background-color: #78c2ad;
             border: none;
             border-radius: 5px;
             text-decoration: none;
@@ -54,34 +54,53 @@
             transition: background-color 0.3s ease;
         }
         .button:hover {
-            background-color: #66a896; /* темніший зелений */
+            background-color: #66a896;
         }
         footer {
-            background-color: #5a4b6d; /* темний фіолетовий */
+            background-color: #5a4b6d;
             color: white;
             text-align: center;
             padding: 10px;
             box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
         }
+        .language-selector {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .language-selector a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: #5a4b6d;
+            font-weight: bold;
+        }
+        .language-selector a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
     <header>
-        <h1>Welcome to Our Platform</h1>
+        <h1 th:text="#{welcome.header}">Welcome to Our Platform</h1>
     </header>
+    <div class="language-selector">
+        <a th:href="@{/?lang=en}">English</a>
+        <a th:href="@{/?lang=it}">Italiano</a>
+        <a th:href="@{/?lang=uk}">Українська</a>
+    </div>
     <main>
-        <p>Our platform offers the best products from various categories. Browse through our market to find exactly what you need.</p>
-        <p>Here, you can sell your own products, buy from others, and much more. Our secure platform ensures safe and reliable transactions.</p>
-        <p>Join us today and become a part of our growing community!</p>
+        <p th:text="#{welcome.intro}">Our platform offers the best products from various categories. Browse through our market to find exactly what you need.</p>
+        <p th:text="#{welcome.description}">Here, you can sell your own products, buy from others, and much more. Our secure platform ensures safe and reliable transactions.</p>
+        <p th:text="#{welcome.invitation}">Join us today and become a part of our growing community!</p>
         <div>
-            <a th:href="@{/getAllProducts}" class="button">Go to Market</a>
+            <a th:href="@{/getAllProducts}" class="button" th:text="#{welcome.go_to_market}">Go to Market</a>
             <div th:if="${!isAuthenticated}">
-                <a th:href="@{/login}" class="button">Login</a>
+                <a th:href="@{/login}" class="button" th:text="#{welcome.login}">Login</a>
             </div>
         </div>
     </main>
     <footer>
-        <p>&copy; 2024 Our Platform. All rights reserved.</p>
+        <p th:text="#{welcome.footer}">&copy; 2024 Our Platform. All rights reserved.</p>
     </footer>
 </body>
 </html>

@@ -88,7 +88,7 @@
 <body>
     <div class="container">
         <div class="back-button">
-            <a th:href="@{/getAllProducts}" style="text-decoration: none; color: #0073bb;">&larr; Повернутися до списку продуктів</a>
+            <a th:href="@{/getAllProducts}" th:text="#{product_details.back_to_list}">&larr; Повернутися до списку продуктів</a>
         </div>
         <div class="product-details">
             <div class="product-image">
@@ -96,36 +96,37 @@
             </div>
             <div class="product-info">
                 <h1 th:text="${product.name}">Назва продукту</h1>
-                <p class="price" th:text="'Ціна: ' + ${product.price} + ' грн'">Ціна: 0 грн</p>
+                <p class="price" th:text="#{product_details.price} + ' ' + ${product.price} + ' грн'">Ціна: 0 грн</p>
                 <div class="description">
-                    <h3>Опис</h3>
+                    <h3 th:text="#{product_details.description_title}">Опис</h3>
                     <p th:text="${product.description}">Опис продукту</p>
                 </div>
                 <div class="owner">
-                    <h3>Продавець</h3>
-                    <p th:text="'Продавець: ' + ${product.accountowner.username}">Продавець: Username</p>
-                    <p th:text="'Країна: ' + ${product.accountowner.country}">Країна: Country</p>
+                    <h3 th:text="#{product_details.seller_title}">Продавець</h3>
+                    <p th:text="#{product_details.seller_label} +' '+ ${product.accountowner.username}">Продавець: Username</p>
+                    <p th:text="#{product_details.country_label} +' ' + ${product.accountowner.country}">Країна: Country</p>
                 </div>
                 <div class="category">
-                    <h3>Категорія</h3>
+                    <h3 th:text="#{product_details.category_title}">Категорія</h3>
                     <p th:text="${product.category}">Категорія</p>
                 </div>
                 <div class="date">
-                    <p th:text="'Дата створення продукту: ' + ${#temporals.format(product.datecreatingproduct, 'yyyy-MM-dd')}">Дата створення продукту: yyyy-MM-dd</p>
+                    <p th:text="#{product_details.date_label} +' ' + ${#temporals.format(product.datecreatingproduct, 'yyyy-MM-dd')}">Дата створення продукту: yyyy-MM-dd</p>
                 </div>
                 <div th:if="${balance != null}">
-                    <div th:if="${balance == false}" class="balance-message">
+                    <div th:if="${balance == false}" class="balance-message" th:text="#{product_details.insufficient_funds_message}">
                         Недостатньо грошей на рахунку.
                     </div>
                 </div>
                 <div th:if="${sameaccount != null}">
-                    <div th:if="${sameaccount == true}" class="sameaccount-message">
+                    <div th:if="${sameaccount == true}" class="sameaccount-message" th:text="#{product_details.cannot_buy_own_product_message}">
                         Вибачте, але ви не можете купити свій же продукт.
                     </div>
                 </div>
-                <a th:href="@{/myAccount/addProductBought(id=${product.id})}" onclick="return confirm('Are you sure you want to delete all canceled products?');" class="buy-button">Купити</a>
+                <a th:href="@{/myAccount/addProductBought(id=${product.id})}" onclick="return confirm('#{product_details.confirm_purchase_message}');" class="buy-button" th:text="#{product_details.buy_button}">Купити</a>
             </div>
         </div>
     </div>
 </body>
+
 </html>

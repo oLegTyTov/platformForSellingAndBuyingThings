@@ -122,17 +122,16 @@
             margin-top: 20px;
         }
     </style>
-</head>
-<body>
+</head><body>
     <header>
-        <h1>Мої продукти в продажу</h1>
+        <h1 th:text="#{my_products_in_selling.page_title}">Мої продукти в продажу</h1>
         <nav>
-            <a href="/myAccount">Мій обліковий запис</a>
+            <a th:href="@{/myAccount}" th:text="#{my_products_in_selling.account_link}">Мій обліковий запис</a>
         </nav>
     </header>
     <div class="container">
         <!-- Повідомлення про відсутність продуктів -->
-        <div th:if="${#lists.isEmpty(pageMyAllProductsInSelling.content)}" class="no-products">
+        <div th:if="${#lists.isEmpty(pageMyAllProductsInSelling.content)}" class="no-products" th:text="#{my_products_in_selling.no_products_message}">
             У вас немає продуктів у продажу.
         </div>
 
@@ -146,15 +145,18 @@
             </div>
         </div>
 
+        <!-- Пагінація -->
         <div class="pagination">
-            <a th:if="${currentPage > 0}" th:href="@{/myAccount/getMyAllProductsInSelling(page=${currentPage - 1}, size=${size})}">Попередня</a>
-            <span th:text="'Сторінка ' + (${currentPage + 1}) + ' з ' + ${totalPages}">Сторінка 1 з 1</span>
-            <a th:if="${currentPage + 1 < totalPages}" th:href="@{/myAccount/getMyAllProductsInSelling(page=${currentPage + 1}, size=${size})}">Наступна</a>
+            <a th:if="${currentPage > 0}" th:href="@{/myAccount/getMyAllProductsInSelling(page=${currentPage - 1}, size=${size})}" th:text="#{my_products_in_selling.previous_page}">Попередня</a>
+            <span th:text="#{my_products_in_selling.page_info} + (${currentPage + 1}) + ' з ' + ${totalPages}">Сторінка 1 з 1</span>
+            <a th:if="${currentPage + 1 < totalPages}" th:href="@{/myAccount/getMyAllProductsInSelling(page=${currentPage + 1}, size=${size})}" th:text="#{my_products_in_selling.next_page}">Наступна</a>
         </div>
 
+        <!-- Повернення до акаунту -->
         <div class="account-link">
-            <p><a th:href="@{/myAccount}">Назад до акаунту</a></p>
+            <p><a th:href="@{/myAccount}" th:text="#{my_products_in_selling.return_to_account}">Назад до акаунту</a></p>
         </div>
     </div>
 </body>
+
 </html>
