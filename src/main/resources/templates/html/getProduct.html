@@ -5,11 +5,29 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #f0f8ff; /* Світло-блакитний фон */
+            color: #333;
+            margin: 0;
+            padding: 0;
         }
         .container {
             max-width: 800px;
-            margin: 0 auto;
+            margin: 20px auto;
             padding: 20px;
+            background-color: #fff; /* Білий фон контейнера */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .back-button a {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+        .back-button a:hover {
+            color: #0056b3;
         }
         .product-details {
             display: flex;
@@ -18,70 +36,82 @@
         }
         .product-image {
             flex: 0 0 45%;
+            background-color: #f0f0f0; /* Світло-сірий фон для зображення продукту */
+            padding: 10px;
+            border-radius: 8px;
         }
         .product-image img {
             width: 100%;
             height: auto;
+            border-radius: 4px;
         }
         .product-info {
             flex: 0 0 50%;
         }
         .product-info h1 {
             font-size: 2em;
+            color: #333;
         }
         .product-info .price {
             font-size: 1.5em;
-            color: #b12704;
+            color: #b12704; /* Темно-червоний колір для ціни */
             margin: 10px 0;
         }
-        .product-info .description {
+        .product-info .description,
+        .product-info .owner,
+        .product-info .category,
+        .product-info .date {
             margin: 20px 0;
         }
-        .product-info .owner {
-            font-size: 0.9em;
-            color: #555;
-        }
-        .product-info .type-of-item {
-            margin: 10px 0;
+        .product-info .description h3,
+        .product-info .owner h3,
+        .product-info .category h3 {
+            margin-bottom: 10px;
+            color: #666; /* Сірий колір для заголовків секцій */
         }
         .product-info .date {
-            font-size: 0.8em;
+            font-size: 0.9em;
             color: #777;
         }
         .buy-button {
             margin-top: 20px;
             padding: 10px 20px;
-            background-color: #f0c14b;
+            background-color: #f0c14b; /* Жовтий фон кнопки */
             border: 1px solid #a88734;
             text-align: center;
             text-decoration: none;
             color: black;
-            border-radius: 3px;
+            border-radius: 5px;
             display: inline-block;
+            transition: background-color 0.3s ease, transform 0.1s ease;
         }
         .buy-button:hover {
             background-color: #e2b33c;
         }
-        .back-button {
-            margin-top: 20px;
+        .buy-button:active {
+            background-color: #cc9a29;
+            transform: scale(0.95);
         }
         .login-message, .balance-message, .sameaccount-message {
             margin-top: 20px;
             padding: 10px 20px;
-            border: 1px solid #dd4b39;
-            border-radius: 3px;
+            border-radius: 5px;
+            font-weight: bold;
         }
         .login-message {
-            background-color: #ffdddd;
+            background-color: #ffdddd; /* Світло-червоний фон */
             color: #dd4b39;
+            border: 1px solid #dd4b39;
         }
         .balance-message {
             background-color: #ffdddd;
             color: #dd4b39;
+            border: 1px solid #dd4b39;
         }
         .sameaccount-message {
-            background-color: #ddffdd;
+            background-color: #ddffdd; /* Світло-зелений фон */
             color: #39dd4b;
+            border: 1px solid #39dd4b;
         }
     </style>
 </head>
@@ -128,5 +158,4 @@
         </div>
     </div>
 </body>
-
 </html>

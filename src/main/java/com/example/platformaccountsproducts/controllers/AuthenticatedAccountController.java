@@ -154,7 +154,7 @@ public String addProduct(@ModelAttribute Product product,@RequestParam("photo") 
     protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder)
             throws ServletException {
 
-        // Convert multipart object to byte[]
+        // Convert multipart object to byte []
         binder.registerCustomEditor(byte[].class, new ByteArrayMultipartFileEditor());
 
     }

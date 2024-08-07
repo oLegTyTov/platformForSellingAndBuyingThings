@@ -21,7 +21,6 @@ public class ProductCanceledService {
     private ProductCanceledRepository productCanceledRepository;
     private AccountService accountService;
     private ProductService productService;
-
     public ProductCanceledService(ProductCanceledRepository productCanceledRepository, AccountService accountService,
             ProductService productService) {
         this.productCanceledRepository = productCanceledRepository;
