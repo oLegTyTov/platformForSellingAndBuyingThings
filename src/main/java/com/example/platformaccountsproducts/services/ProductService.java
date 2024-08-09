@@ -23,7 +23,7 @@ import com.example.platformaccountsproducts.repositories.ProductRepository;
 public class ProductService {
     private ProductRepository productRepository;
     private AccountService accountService;
-
+    
     @Autowired
     public ProductService(ProductRepository productRepository, AccountService accountService) {
         this.productRepository = productRepository;
